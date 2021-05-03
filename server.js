@@ -1,4 +1,5 @@
-const { notes } = require('./db/db.json');
+const notes = require('./db/db.json');
+// database json structure is array
 
 const fs = require("fs");
 const path = require("path");
@@ -14,26 +15,24 @@ app.use(express.static("public"));
 
 app.get('/api/notes', (req, res) => {
     // res.send("hello!");
-    res.json(notes);
-
+    // res.json(notes);
+    let results = notes;
+    // console.log(req.query);
+    if(req.query) {
+        results = filterByQuery(req.query, results);
+    }
+    res.json(results);
 });
 
 // this function will take in req.query as an argument and filter through the notes accordingly, returning the new filtered aray.
-// function filterByQuery(query, notesArray) {
-//     let filteredResults = notesArray;
-//     if(query.title) {
-//         filteredResults = filteredResults.filter(note => note.title === query.title);
-//     }
-//     return filteredResults;
-// }
-// database json structure
-/* [
-    {
-        "title":"Test Title",
-        "text":"Test text"
+function filterByQuery(query, notesArray) {
+    let filteredResults = notesArray;
+    if(query.title) {
+        filteredResults = filteredResults.filter(note => note.title === query.title);
     }
-]
-*/
+    return filteredResults;
+}
+
 
 //save icon works (save -> note to array)
 //assign IDs
