@@ -83,6 +83,7 @@ app.get('/api/notes/:id', (req, res) => {
 });
 
 app.delete('/api/notes/:id', (req, res) => {
+
     console.log(req.params.id);
     // unfiltered results
     console.log(notes);
@@ -93,9 +94,13 @@ app.delete('/api/notes/:id', (req, res) => {
     console.log(notes);
     
     // overwrite
+    fs.writeFileSync(
+        path.join(__dirname, './db/db.json'),
+        JSON.stringify(notes)
+    );
+
     notesArray.push(notes);
-    // send
-    res.json(notes);
+
 });
 
 //saved note appears on the left
