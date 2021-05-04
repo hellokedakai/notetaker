@@ -1,4 +1,4 @@
-const notes = require('./db/db.json');
+let notes = require('./db/db.json');
 // database json structure is array
 
 const fs = require("fs");
@@ -8,8 +8,6 @@ const express = require("express");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-
-// const {deleteNote} = require('./public/assets/js/index');
 
 //middleware
 app.use(express.urlencoded({extended: true}));
@@ -84,6 +82,21 @@ app.get('/api/notes/:id', (req, res) => {
     }
 });
 
+app.delete('/api/notes/:id', (req, res) => {
+    // unfiltered results
+    console.log(notes);
+    
+    notes = notes.filter(note => note.id !== req.params.id);
+
+    // filtered results
+    console.log(notes);
+    console.log(req.params.id);
+    // overwrite
+    notesArray.push(notes);
+    // send
+    return notesArray;
+});
+
 //saved note appears on the left
 //related function: renderNoteList
 //related function: renderActiveNote, handleNoteView
@@ -106,9 +119,9 @@ app.post('/api/notes', (req, res) => {
 
 //delete note works (remove note from array)
 //related function: deleteNote, handleNoteDelete
-app.delete('/api/notes', (id) => {
-    deleteNote(id);
-});
+// app.delete('/api/notes', (id) => {
+//     deleteNote(id);
+// });
 
 // htmlRoutes
 // link to the notes page
