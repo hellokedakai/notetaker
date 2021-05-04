@@ -44,27 +44,6 @@ function valdiateNote(note) {
     return true;
 };
 
-function displayNote(id, notesArray, body) {
-    if(notesArray[id]) {
-        console.log(notesArray)
-        
-        notesArray[id].title = body.title;
-        
-        notesArray[id].text = body.text;
-        console.log(notesArray)
-
-        fs.writeFileSync(
-            path.join(__dirname, './db/db.json'),
-            JSON.stringify(notes)
-        );
-
-        // console.log(notesArray)
-    }
-}
-
-// saved note appears on the right
-// 
-
 
 app.get('/api/notes', (req, res) => {
     // res.send("hello!");
@@ -142,11 +121,6 @@ app.post('/api/notes', (req, res) => {
         res.json(note);        
     }
 });
-
-app.put('/api/notes/:id', (req, res) => {
-    const note = displayNote(req.params.id, notes, req.body);
-    res.json(note);
-})
 
 // htmlRoutes
 // link to the notes page
