@@ -83,6 +83,7 @@ app.get('/api/notes/:id', (req, res) => {
 });
 
 app.delete('/api/notes/:id', (req, res) => {
+    console.log(req.params.id);
     // unfiltered results
     console.log(notes);
     
@@ -90,11 +91,11 @@ app.delete('/api/notes/:id', (req, res) => {
 
     // filtered results
     console.log(notes);
-    console.log(req.params.id);
+    
     // overwrite
     notesArray.push(notes);
     // send
-    return notesArray;
+    res.json(notes);
 });
 
 //saved note appears on the left
