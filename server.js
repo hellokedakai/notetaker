@@ -44,8 +44,26 @@ function valdiateNote(note) {
     return true;
 };
 
-//saved note appears on the right
+function displayNote(id, notesArray, body) {
+    if(notesArray[id]) {
+        console.log(notesArray)
+        
+        notesArray[id].title = body.title;
+        
+        notesArray[id].text = body.text;
+        console.log(notesArray)
 
+        fs.writeFileSync(
+            path.join(__dirname, './db/db.json'),
+            JSON.stringify(notes)
+        );
+
+        // console.log(notesArray)
+    }
+}
+
+// saved note appears on the right
+// 
 
 
 app.get('/api/notes', (req, res) => {
@@ -76,6 +94,7 @@ function filterByQuery(query, notesArray) {
 app.get('/api/notes/:id', (req, res) => {
     const result = findById(req.params.id, notes);
     if(result) {
+        console.log("got");
         res.json(result);
     } else {
         res.send(404);
@@ -99,6 +118,7 @@ app.delete('/api/notes/:id', (req, res) => {
         JSON.stringify(notes)
     );
 
+    // send to front-end display
     res.json(notes);
 
 });
@@ -123,11 +143,10 @@ app.post('/api/notes', (req, res) => {
     }
 });
 
-//delete note works (remove note from array)
-//related function: deleteNote, handleNoteDelete
-// app.delete('/api/notes', (id) => {
-//     deleteNote(id);
-// });
+app.put('/api/notes/:id', (req, res) => {
+    const note = displayNote(req.params.id, notes, req.body);
+    res.json(note);
+})
 
 // htmlRoutes
 // link to the notes page
@@ -142,11 +161,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}`);
 });
-
-
-
-// const apiRoutes = require("./routes/apiRoutes");
-// const htmlRoutes = require("./routes/htmlRoutes");
-// app.use('/api', apiRoutes);
-// app.use('/', htmlRoutes);
-//functions from index.js
