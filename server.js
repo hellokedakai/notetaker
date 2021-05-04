@@ -99,7 +99,7 @@ app.delete('/api/notes/:id', (req, res) => {
         JSON.stringify(notes)
     );
 
-    notesArray.push(notes);
+    res.json(notes);
 
 });
 
